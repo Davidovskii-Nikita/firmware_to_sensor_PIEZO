@@ -147,7 +147,7 @@ void loop()
    
 ### Схема подключения.   
 В общем виде схема подключения выглядит следующим образом:
-![Сехма устройства](https://github.com/Davidovskii-Nikita/firmware_to_sensor_PIEZO/blob/master/dosc/%D0%9F%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F_%D1%81%D1%85%D0%B5%D0%BC%D0%B0-1.png)   
+![Сехма устройства](https://github.com/Davidovskii-Nikita/firmware_to_sensor_PIEZO/blob/master/dosc/%D0%9F%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D1%81%D1%85%D0%B5%D0%BC%D0%B0%20%D0%BF%D1%8C%D0%B5%D0%B7%D0%BE.png)   
     
 ### Отладка  
 Для настройки работы прошивки можно изменить переменные содержащиеся в файле *core.h* блок настройки пользователя.   
