@@ -49,6 +49,7 @@ const char* update_path = "/firmware";
 float vibro_speed;
 float current_accel;
 float old_accel;
+double  offset_startup_time;
 //====================================================================================
 ESP8266WebServer server(80);
 ESP8266HTTPUpdateServer httpUpdater;
@@ -60,7 +61,7 @@ DS18B20 sensor(&oneWire);
 // Инициализация функций
 //====================================================================================
 double update_ntp(); // функция получения времени
-double get_time(double s_t); // функция синхронизации времени s_t - время UNIX (sync_time)
+double get_time(double s_t, double offset); // функция синхронизации времени s_t - время UNIX (sync_time)
 void get_vibrospeed();//интешрирование ускорения, управляется таймером Ticker_V
 void upate_vibrospeed_value(); //запись значения виброскорости в массив с меткой времени. Управляется таймером Ticker_A
 void update_temperature_value(); // запись значения температуры в массив с меткой времени. Управляется таймером Ticker_T

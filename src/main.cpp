@@ -7,6 +7,11 @@ void setup()
   extern String MAC;
   WiFi.begin(ssid, password);
   delay(100);
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    offset_startup_time = (double)millis()/1000;
+    delay(1500);
+  }
   WiFi.mode(WIFI_AP_STA); 
   // Создание WEB-страницы
   //====================================================================================
@@ -65,10 +70,10 @@ if (WiFi.waitForConnectResult() == WL_CONNECTED) {
   local_time_ms = millis();
 
   sensor.begin();
-  sensor.setResolution(9);// 9 минимальная
-  sensor.requestTemperatures();
+  sensor.setResolution(12);// 9 минимальная
 
-  WiFi.setOutputPower(5);
+
+  WiFi.setOutputPower(0);
 
   // Блок инициализации таймеров
   //====================================================================================
@@ -85,8 +90,11 @@ void loop()
   MDNS.update();
   extern bool flag_a, flag_temp;
   extern uint16_t count_temp, count_a;
+  // WiFi.forceSleepBegin();
+  delay(1);
   if(flag_a && flag_temp)
   {
+    // WiFi.forceSleepWake();
     post_json(); // сбор и отправка данных
     count_temp = 0; // обнуление всех счетчиков и флагов для следующей иттерации
     count_a = 0;
@@ -104,8 +112,6 @@ void get_vibrospeed()
     current_accel = analogRead(A0);
     vibro_speed = vibro_speed + ((current_accel+old_accel)*(g/200.0));
     old_accel = current_accel;
-  
-  
 }
  
 void upate_vibrospeed_value()
@@ -116,7 +122,7 @@ void upate_vibrospeed_value()
   String speed_to_json;
   if (count_a<range_a)
   {
-    time_to_json = String(get_time(sync_time));
+    time_to_json = String(get_time(sync_time, offset_startup_time));
     speed_to_json =String(vibro_speed);
     opros_axel[count_a]=speed_to_json; // запись виброскорости и времени в массивы
     opros_axel_time[count_a]=time_to_json;
@@ -141,8 +147,9 @@ void update_temperature_value()
   if(count_temp<range_temp)
   {
     float T;
+    sensor.requestTemperatures();
     T = sensor.getTempC();
-    time_to_json = String(get_time(sync_time));
+    time_to_json = String(get_time(sync_time, offset_startup_time));
     temp_to_json=String(T);
     opros_temp[count_temp]=temp_to_json;// запись температуры и времени в массив
     opros_temp_time[count_temp]=time_to_json;

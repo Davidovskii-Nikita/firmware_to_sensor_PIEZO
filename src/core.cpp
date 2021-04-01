@@ -20,8 +20,8 @@ double update_ntp()
     return s_t;
 }   
 
-double get_time(double s_t)
+double get_time(double s_t, double offset)
 { 
-  return  ((double)millis())/1000 + s_t;
+  return  ((double)millis())/1000 + s_t - offset;
 }
 
